@@ -13,12 +13,12 @@ public class MessagingController {
 
 
     @Autowired
-    MessagingService messagingService;
+    MessagingService service;
 
         @PostMapping("/messaging")
     public ResponseEntity<String> sendMessage(@RequestBody Message message){
         try{
-            messagingService.sendMessage(message);
+            service.send(message.getBody());
             return new ResponseEntity<>("Sent", HttpStatus.ACCEPTED);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

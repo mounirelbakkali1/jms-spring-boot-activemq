@@ -1,3 +1,4 @@
+
 package com.app.services;
 
 import com.app.entities.Message;
@@ -8,6 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessagingService {
 
+
+/* for message production and asynchrounous message reception
+    *
+    *  Similar to Java EE's message driven Beans (MDB)
+    * */
+
     private JmsTemplate jmsTemplate;
 
     @Autowired
@@ -15,7 +22,8 @@ public class MessagingService {
         this.jmsTemplate = jmsTemplate;
     }
 
-    public void sendMessage(Message message){
-        jmsTemplate.convertAndSend("messages-box",message);
+    public void send(String message) {
+        jmsTemplate.send("destination", session -> session.createTextMessage(message));
     }
 }
+
